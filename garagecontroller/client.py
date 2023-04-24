@@ -36,4 +36,4 @@ client.connect(mybroker,
 mytopic = 'garage/push'
 client.subscribe(mytopic,2);
 gpio.init();
-client.loop_start();
+client.loop_forever();

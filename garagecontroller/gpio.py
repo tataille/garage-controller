@@ -21,10 +21,10 @@ def init():
     signal(SIGINT, handler)
 
     # Mise a 1 pendant 2 secondes puis 0 pendant 2 seconde
-    while True:
-        print("on")
-        gpio.output(14, gpio.HIGH)
-        time.sleep(0.7)
-        print("off")
-        gpio.output(14, gpio.LOW)
-        time.sleep(2)
+    # while True:
+    #     print("on")
+    #     gpio.output(14, gpio.HIGH)
+    #     time.sleep(0.7)
+    #     print("off")
+    #     gpio.output(14, gpio.LOW)
+    #     time.sleep(2)
