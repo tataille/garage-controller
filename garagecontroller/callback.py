@@ -10,21 +10,19 @@ def on_connect(client, userdata, flags, rc, v5config=None):
 def on_message(client, userdata, message,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Received message " + str(message.payload) + " on topic '"
         + message.topic + "' with QoS " + str(message.qos))
-    m_decode=str(message.payload.decode("utf-8","ignore"))
-    print("data Received type",type(m_decode))
-    print("data Received",m_decode)
-    print("Converting from Json to Object")
-    m_in=json.loads(m_decode) #decode json data
-    print(type(m_in))
-    if "percent" in m_in:
-        print(m_in["percent"])
-    else:
+    if message.payload == None:
         print("Single push")
         gpio.push()
-        # single push
+    else:
+        m_decode=str(message.payload.decode("utf-8","ignore"))
+        print("data Received type",type(m_decode))
+        print("data Received",m_decode)
+        print("Converting from Json to Object")
+        m_in=json.loads(m_decode) #decode json data
+        print(type(m_in))
+        if "percent" in m_in:
+            print(m_in["percent"])
 
-   
-    
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
     
