@@ -1,6 +1,7 @@
 from datetime import datetime as dt
 from paho.mqtt.client import connack_string as ack
 import json
+import gpio
 
 
 def on_connect(client, userdata, flags, rc, v5config=None):
@@ -19,6 +20,7 @@ def on_message(client, userdata, message,tmp=None):
         print(m_in["percent"])
     else:
         print("Single push")
+        gpio.push()
         # single push
 
    
