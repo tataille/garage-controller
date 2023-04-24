@@ -10,6 +10,13 @@ def handler(signal_received, frame):
     gpio.cleanup()
     exit(0)
 
+def push():
+    print("press")
+    gpio.output(14, gpio.HIGH)
+    time.sleep(0.7)
+    print("release")
+    gpio.output(14, gpio.LOW)
+
 def init():
     # on passe en mode BMC qui veut dire que nous allons utiliser directement
     # le numero GPIO plutot que la position physique sur la carte
