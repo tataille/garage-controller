@@ -4,6 +4,7 @@ import os
 from paho.mqtt.properties import Properties
 from paho.mqtt.packettypes import PacketTypes 
 import dotenv
+import gpio
 
 dotenv.load_dotenv()
 
@@ -34,4 +35,5 @@ client.connect(mybroker,
 
 mytopic = 'garage/push'
 client.subscribe(mytopic,2);
-client.loop_forever();
+gpio.init();
+client.loop_start();
