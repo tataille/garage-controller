@@ -1,1 +1,3 @@
 # Add project requirements here
+paho-mqtt
+python-dotenv
