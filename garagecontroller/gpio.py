@@ -24,7 +24,7 @@ def init():
     gpio.setmode(gpio.BCM)
 
     # defini le port GPIO 4 comme etant une sortie output
-    gpio.setup(14, gpio.OUT, initial=1)
+    gpio.setup(14, gpio.OUT, initial=0)
     
     signal(SIGINT, handler)
 
