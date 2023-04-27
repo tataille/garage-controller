@@ -32,6 +32,8 @@ def init():
 
     # defini le port GPIO 4 comme etant une sortie output
     gpio.setup(14, gpio.OUT, initial=1)
+    gpio.setup(LED, gpio.OUT, initial=0) #Active le contrôle du GPIO
+
     signal(SIGINT, handler)
 
     # Mise a 1 pendant 2 secondes puis 0 pendant 2 seconde
