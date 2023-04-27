@@ -15,14 +15,13 @@ def handler(signal_received, frame):
 def push():
     gpio.output(LED, gpio.LOW) #On l’éteint
     
-    
     print("press")
     gpio.output(14, gpio.LOW)
     gpio.output(LED, gpio.HIGH) #On l'allume
     time.sleep(0.5)
     print("release")
     gpio.output(14, gpio.HIGH)
-    gpio.output(LED, gpio.LOWD) #On l'allume
+    gpio.output(LED, gpio.LOW) #On l'éteind
 
 
 def init():
