@@ -17,6 +17,7 @@ def push():
     print("release")
     gpio.output(14, gpio.HIGH)
 
+
 def init():
     # on passe en mode BMC qui veut dire que nous allons utiliser directement
     # le numero GPIO plutot que la position physique sur la carte
@@ -24,7 +25,6 @@ def init():
 
     # defini le port GPIO 4 comme etant une sortie output
     gpio.setup(14, gpio.OUT, initial=1)
-    
     signal(SIGINT, handler)
 
     # Mise a 1 pendant 2 secondes puis 0 pendant 2 seconde
