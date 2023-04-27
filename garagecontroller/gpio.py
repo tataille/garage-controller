@@ -3,6 +3,8 @@ import time
 from signal import signal, SIGINT
 from sys import exit
 
+LED = 12 #Définit le numéro du port GPIO qui alimente la led
+
 def handler(signal_received, frame):
     # on gère un cleanup propre
     print('')
@@ -11,11 +13,16 @@ def handler(signal_received, frame):
     exit(0)
 
 def push():
+    gpio.output(LED, gpio.LOW) #On l’éteint
+    
+    
     print("press")
     gpio.output(14, gpio.LOW)
+    gpio.output(LED, gpio.HIGH) #On l'allume
     time.sleep(0.5)
     print("release")
     gpio.output(14, gpio.HIGH)
+    gpio.output(LED, gpio.LOWD) #On l'allume
 
 
 def init():
