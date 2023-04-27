@@ -12,10 +12,10 @@ def handler(signal_received, frame):
 
 def push():
     print("press")
-    gpio.output(14, gpio.HIGH)
-    time.sleep(0.7)
-    print("release")
     gpio.output(14, gpio.LOW)
+    time.sleep(0.5)
+    print("release")
+    gpio.output(14, gpio.HIGH)
 
 def init():
     # on passe en mode BMC qui veut dire que nous allons utiliser directement
@@ -23,7 +23,7 @@ def init():
     gpio.setmode(gpio.BCM)
 
     # defini le port GPIO 4 comme etant une sortie output
-    gpio.setup(14, gpio.OUT)
+    gpio.setup(14, gpio.OUT, initial=1)
     
     signal(SIGINT, handler)
 
