@@ -11,7 +11,7 @@ Python projet Allow to allow to control garage door through MQTT.
 
 ## MQTT topics
 
-## Home Assistant button
+## Home Assistant
 
 
 
