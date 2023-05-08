@@ -7,7 +7,7 @@ import gpio
 def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
         print("connected OK Returned code=",rc)
-        mytopic = 'garage/push'
+        mytopic = 'home/garagedoor/POWER'
         client.subscribe(mytopic,2);  
     else:
         print("Bad connection Returned code= ",rc)

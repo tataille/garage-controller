@@ -42,5 +42,5 @@ atexit.register(disconnectMQTT)
 gpio.init()
 
 client.publish('home/garagedoor/availability',payload='online')
-client.loop_start()
+client.loop_forever()
      
