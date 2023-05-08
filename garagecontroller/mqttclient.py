@@ -10,6 +10,7 @@ import gpio
 
 def disconnectMQTT():
      client.publish('home/garagedoor/availability',payload='offline')
+     client.loop_stop()
      client.disconnect();
 
 dotenv.load_dotenv()
@@ -17,11 +18,9 @@ dotenv.load_dotenv()
 
 mytransport = 'tcp' # or 'tcp'
 
-
 client = mqtt.Client(client_id="myPy",
                         transport=mytransport,
                         protocol=mqtt.MQTTv311)
-client.connected_flag=False
 
 client.username_pw_set(os.getenv('username'), os.getenv('password'))
 client.on_connect = callback.on_connect;
@@ -42,7 +41,6 @@ client.connect(mybroker,
 atexit.register(disconnectMQTT)
 gpio.init()
 
-while not client.connected_flag: #wait in loop
-     time.sleep(1)
-     
 client.publish('home/garagedoor/availability',payload='online')
+client.loop_start()
+     

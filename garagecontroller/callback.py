@@ -6,10 +6,9 @@ import gpio
 
 def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
-        client.connected_flag=True #set flag
         print("connected OK Returned code=",rc)
         mytopic = 'garage/push'
-        client.subscribe(mytopic,2);    
+        client.subscribe(mytopic,2);  
     else:
         print("Bad connection Returned code= ",rc)
 
