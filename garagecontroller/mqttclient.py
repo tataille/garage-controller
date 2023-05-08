@@ -2,11 +2,15 @@ import paho.mqtt.client as mqtt
 import callback
 import os
 import time
-
+import atexit
 from paho.mqtt.properties import Properties
 from paho.mqtt.packettypes import PacketTypes 
 import dotenv
 import gpio
+
+def disconnectMQTT():
+     client.publish('home/garagedoor/availability',payload='offline')
+     client.disconnect();
 
 dotenv.load_dotenv()
 
@@ -33,9 +37,10 @@ print(mybroker)
 client.connect(mybroker,
                 myport,
                 keepalive=60,
-                bind_address="");
+                bind_address="")
 
-gpio.init();
+atexit.register(disconnectMQTT)
+gpio.init()
 
 while not client.connected_flag: #wait in loop
      time.sleep(1)
