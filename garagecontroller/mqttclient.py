@@ -32,12 +32,12 @@ myport = int(os.getenv('port'))
 mybroker = os.getenv('broker')
 print(mybroker)
 
+client.will_set('home/garagedoor/availability','offline',retain=False)
 
 client.connect(mybroker,
                 myport,
                 keepalive=60,
                 bind_address="")
-
 atexit.register(disconnectMQTT)
 gpio.init()
 
