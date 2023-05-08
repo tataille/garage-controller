@@ -17,7 +17,6 @@ client = mqtt.Client(client_id="myPy",
                         protocol=mqtt.MQTTv311)
 
 client.username_pw_set(os.getenv('username'), os.getenv('password'))
-
 client.on_connect = callback.on_connect;
 client.on_message = callback.on_message;
 client.on_publish = callback.on_publish;
@@ -35,5 +34,7 @@ client.connect(mybroker,
 
 mytopic = 'garage/push'
 client.subscribe(mytopic,2);
-gpio.init();
+gpio.init(client);
+
+client.publish('home/garagedoor/availability',payload='online')
 client.loop_forever();

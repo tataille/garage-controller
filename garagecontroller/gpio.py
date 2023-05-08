@@ -4,12 +4,14 @@ from signal import signal, SIGINT
 from sys import exit
 
 LED = 12 #Définit le numéro du port GPIO qui alimente la led
+mqttClient = None
 
 def handler(signal_received, frame):
     # on gère un cleanup propre
     print('')
     print('SIGINT or CTRL-C detected. Exiting gracefully')
     gpio.cleanup()
+    mqttClient.publish('home/garagedoor/availability',payload='offline')
     exit(0)
 
 def push():
@@ -24,7 +26,8 @@ def push():
     gpio.output(LED, gpio.LOW) #On l'éteind
 
 
-def init():
+def init(client):
+    mqttClient = client
     # on passe en mode BMC qui veut dire que nous allons utiliser directement
     # le numero GPIO plutot que la position physique sur la carte
     gpio.setmode(gpio.BCM)

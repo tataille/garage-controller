@@ -7,6 +7,8 @@ import gpio
 def on_connect(client, userdata, flags, rc, v5config=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Connection returned result: "+ack(rc))
 
+
+
 def on_message(client, userdata, message,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Received message " + str(message.payload) + " on topic '"
         + message.topic + "' with QoS " + str(message.qos))
