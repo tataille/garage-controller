@@ -5,8 +5,13 @@ import gpio
 
 
 def on_connect(client, userdata, flags, rc, v5config=None):
-    print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Connection returned result: "+ack(rc))
-
+    if rc==0:
+        client.connected_flag=True #set flag
+        print("connected OK Returned code=",rc)
+        mytopic = 'garage/push'
+        client.subscribe(mytopic,2);    
+    else:
+        print("Bad connection Returned code= ",rc)
 
 
 def on_message(client, userdata, message,tmp=None):

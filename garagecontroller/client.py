@@ -1,6 +1,8 @@
 import paho.mqtt.client as mqtt
 import callback
 import os
+import time
+
 from paho.mqtt.properties import Properties
 from paho.mqtt.packettypes import PacketTypes 
 import dotenv
@@ -15,6 +17,7 @@ mytransport = 'tcp' # or 'tcp'
 client = mqtt.Client(client_id="myPy",
                         transport=mytransport,
                         protocol=mqtt.MQTTv311)
+client.connected_flag=False
 
 client.username_pw_set(os.getenv('username'), os.getenv('password'))
 client.on_connect = callback.on_connect;
@@ -32,9 +35,9 @@ client.connect(mybroker,
                 keepalive=60,
                 bind_address="");
 
-mytopic = 'garage/push'
-client.subscribe(mytopic,2);
-gpio.init(client);
+gpio.init();
 
+while not client.connected_flag: #wait in loop
+     time.sleep(1)
+     
 client.publish('home/garagedoor/availability',payload='online')
-client.loop_forever();
