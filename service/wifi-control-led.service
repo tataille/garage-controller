@@ -3,7 +3,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/usr/bin/python3 /home/pi/git/mqtt-garage-controller/script/led.py
+ExecStart=/usr/bin/python3 /home/pi/git/mqtt-garage-controller/garagecontroller/led.py
 User=pi
 
 [Install]
