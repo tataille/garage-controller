@@ -30,6 +30,6 @@ state_closed: "closed"
 ## services
 
 ```bash
-sudo systemctl enable /home/pi/git/mqtt-garage-controller/service/wpa_cli.service
+sudo systemctl enable /home/pi/git/mqtt-garage-controller/service/wifi-control-led.service
 sudo systemctl enable /home/pi/git/mqtt-garage-controller/service/garage-controller.service
 ```
