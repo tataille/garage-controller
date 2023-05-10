@@ -3,7 +3,7 @@ Description=GarageController
 After=network-online.target
 Wants=network-online.target
 [Service]
-ExecStart=sh /home/pi/git/mqtt-garage-controller/launcher.sh
+ExecStart=/usr/bin/python3 /home/pi/git/mqtt-garage-controller/garagecontroller.py
 Restart=always
 User=pi
 [Install]
