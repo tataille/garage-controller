@@ -11,8 +11,6 @@ Python projet Allow to allow to control garage door through MQTT.
 
 ## MQTT topics
 
-
-
 ## Home Assistant
 
 ```mqtt
@@ -29,5 +27,9 @@ state_open: "opened"
 state_closed: "closed"
 ```
 
+## services
 
-
+```bash
+sudo systemctl enable /home/pi/git/mqtt-garage-controller/service/wpa_cli.service
+sudo systemctl enable /home/pi/git/mqtt-garage-controller/service/garage-controller.service
+```

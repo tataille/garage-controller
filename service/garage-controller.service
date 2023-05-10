@@ -1,0 +1,10 @@
+[Unit]
+Description=GarageController
+After=network-online.target
+Wants=network-online.target
+[Service]
+ExecStart=sh /home/pi/git/mqtt-garage-controller/launcher.sh
+Restart=always
+User=pi
+[Install]
+WantedBy=multi-user.target
