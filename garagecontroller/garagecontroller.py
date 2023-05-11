@@ -49,7 +49,7 @@ broker_port = int(os.getenv('port'))
 broker_host = os.getenv('broker')
 door_sensor_topic = os.getenv('doorsensortopic')
 
-print('MQTT Broker: '+broker_host+':'+broker_port)
+print('MQTT Broker: '+broker_host+':'+str(broker_port))
 print('Door sensor topic: '+door_sensor_topic)
 
 client.will_set('home/garagedoor/availability','offline',retain=False)
