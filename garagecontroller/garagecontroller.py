@@ -11,6 +11,13 @@ from datetime import datetime as dt
 from paho.mqtt.client import connack_string as ack
 import json
 
+dotenv.load_dotenv()
+
+broker_port = int(os.getenv('port'))
+broker_host = os.getenv('broker')
+door_sensor_topic = os.getenv('doorSensorTopic')
+power_topic = 'home/garagedoor/POWER'
+
 def disconnectMQTT():
      client.publish('home/garagedoor/availability',payload='offline')
      client.loop_stop()
@@ -21,8 +28,8 @@ def disconnectMQTT():
 def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
         print("connected OK Returned code=",rc)
-        mytopic = 'home/garagedoor/POWER'
-        client.subscribe(mytopic,2)
+        
+        client.subscribe(power_topic,0)
         client.subscribe(door_sensor_topic,1)
     else:
         print("Bad connection Returned code= ",rc)
@@ -32,7 +39,16 @@ def on_message(client, userdata, message,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Received message " + str(message.payload) + " on topic '"
         + message.topic + "' with QoS " + str(message.qos))
     print("Single push")
-    #gpio.push()
+    if message.topic == power_topic:
+          gpio.push()
+    elif message.topic == door_sensor_topic:
+          m_decode=str(message.payload.decode("utf-8","ignore"))
+          print("data Received type",type(m_decode))
+          print("data Received",m_decode)
+          print("Converting from Json to Object")
+          m_in=json.loads(m_decode) #decode json data
+          print(type(m_in))
+          print("state",m_in["contact"])
     
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
@@ -50,7 +66,6 @@ def on_disconnect(client, userdata, rc):
     client.connected_flag=False
     client.disconnect_flag=True
 
-dotenv.load_dotenv()
 
 
 mytransport = 'tcp' # or 'tcp'
@@ -69,9 +84,7 @@ client.on_message = on_message;
 client.on_publish = on_publish;
 client.on_subscribe = on_subscribe;
 
-broker_port = int(os.getenv('port'))
-broker_host = os.getenv('broker')
-door_sensor_topic = os.getenv('doorSensorTopic')
+
 
 print('MQTT Broker: '+broker_host+':'+str(broker_port))
 print('Door sensor topic: '+door_sensor_topic)
