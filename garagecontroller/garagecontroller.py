@@ -62,10 +62,12 @@ dotenv.load_dotenv()
 mytransport = 'tcp' # or 'tcp'
 
 mqtt.Client.connected_flag=False#create flag in class
+mqtt.Client.bad_connection_flag=False
 
 client = mqtt.Client(client_id="myPy",
                         transport=mytransport,
                         protocol=mqtt.MQTTv311)
+client.babad_connection_flag
 
 client.username_pw_set(os.getenv('username'), os.getenv('password'))
 client.on_connect = on_connect;
