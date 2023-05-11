@@ -30,6 +30,7 @@ def on_connect(client, userdata, flags, rc, v5config=None):
         print("connected OK Returned code=",rc)
         client.subscribe(power_topic,0)
         client.subscribe(door_sensor_topic,0)
+        client.publish(availability_topic,payload='online')
     else:
         print("Bad connection Returned code= ",rc)
 
@@ -102,7 +103,6 @@ client.connect(broker_host,
 atexit.register(disconnectMQTT)
 gpio.init()
 
-client.publish(availability_topic,payload='online')
 client.loop_start()
 print('Running..')
 while not client.connected_flag and not client.bad_connection_flag: #wait in loop
