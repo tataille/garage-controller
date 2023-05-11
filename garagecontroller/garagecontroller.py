@@ -26,11 +26,13 @@ def disconnectMQTT():
 
 def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
-        print("connected OK Returned code=",rc)
-        client.subscribe(power_topic,1)
-        client.subscribe(door_sensor_topic,1)
+          print("connected OK Returned code=",rc)
+          time.sleep(5)
+          client.publish(availability_topic,payload='online')
+          client.subscribe(power_topic,1)
+          client.subscribe(door_sensor_topic,1)
     else:
-        print("Bad connection Returned code= ",rc)
+          print("Bad connection Returned code= ",rc)
 
 
 def on_message(client, userdata, message,tmp=None):
@@ -106,7 +108,6 @@ client.loop_start()
 print('Running..')
 while not client.connected_flag and not client.bad_connection_flag: #wait in loop
      time.sleep(1)
-     client.publish(availability_topic,payload='online')
 if client.bad_connection_flag:
      print('Stopping..')
      client.loop_stop()    #Stop loop
