@@ -28,8 +28,8 @@ def disconnectMQTT():
 def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
         print("connected OK Returned code=",rc)
-        client.subscribe(power_topic,0)
-        client.subscribe(door_sensor_topic,0)
+        client.subscribe(power_topic,1)
+        client.subscribe(door_sensor_topic,1)
         client.publish(availability_topic,payload='online')
     else:
         print("Bad connection Returned code= ",rc)
@@ -94,7 +94,7 @@ client.on_subscribe = on_subscribe;
 print('MQTT Broker: '+broker_host+':'+str(broker_port))
 print('Door sensor topic: '+door_sensor_topic)
 
-client.will_set('home/garagedoor/availability','offline',retain=False)
+client.will_set(availability_topic,'offline',retain=False)
 
 client.connect(broker_host,
                 broker_port,
