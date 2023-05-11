@@ -36,7 +36,7 @@ def on_message(client, userdata, message,tmp=None):
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
     
-    
+
 def on_subscribe(client, userdata, mid, qos,tmp=None):
     if isinstance(qos, list):
         qos_msg = str(qos[0])
@@ -85,7 +85,7 @@ atexit.register(disconnectMQTT)
 gpio.init()
 
 client.publish('home/garagedoor/availability',payload='online')
-client.subscribe(door_sensor_topic,1)
+
 while not client.connected_flag and not client.bad_connection_flag: #wait in loop
     print(".")
     time.sleep(1)
