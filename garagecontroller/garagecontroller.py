@@ -36,6 +36,7 @@ def on_message(client, userdata, message,tmp=None):
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
     
+    
 def on_subscribe(client, userdata, mid, qos,tmp=None):
     if isinstance(qos, list):
         qos_msg = str(qos[0])
