@@ -52,7 +52,7 @@ def on_message(client, userdata, message,tmp=None):
           if m_in["contact"] == True:
                client.publish(state_topic,payload='closed')
           else:
-               client.publish(state_topic,payload='false')
+               client.publish(state_topic,payload='opened')
     
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
