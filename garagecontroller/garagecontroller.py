@@ -72,9 +72,9 @@ client = mqtt.Client(client_id="myPy",
 client.username_pw_set(os.getenv('username'), os.getenv('password'))
 client.on_connect = on_connect;
 client.on_disconnect = on_disconnect;
-client.on_message = callback.on_message;
-client.on_publish = callback.on_publish;
-client.on_subscribe = callback.on_subscribe;
+client.on_message = on_message;
+client.on_publish = on_publish;
+client.on_subscribe = on_subscribe;
 
 broker_port = int(os.getenv('port'))
 broker_host = os.getenv('broker')
