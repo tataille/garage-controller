@@ -37,8 +37,9 @@ def on_connect(client, userdata, flags, rc, v5config=None):
 def on_message(client, userdata, message,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Received message " + str(message.payload) + " on topic '"
         + message.topic + "' with QoS " + str(message.qos))
-    print("Single push")
+
     if message.topic == power_topic:
+          print("Single push")
           gpio.push()
     elif message.topic == door_sensor_topic:
           m_decode=str(message.payload.decode("utf-8","ignore"))
@@ -48,6 +49,10 @@ def on_message(client, userdata, message,tmp=None):
           m_in=json.loads(m_decode) #decode json data
           print(type(m_in))
           print("state",m_in["contact"])
+          if m_in["contact"] == True:
+               client.publish('home/garagedoor/status',payload='opened')
+          else:
+               client.publish('home/garagedoor/status',payload='closed')
     
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
