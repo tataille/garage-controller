@@ -43,14 +43,6 @@ def on_subscribe(client, userdata, mid, qos,tmp=None):
         qos_msg = f"and granted QoS {qos[0]}"
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Subscribed " + qos_msg)    
 
-def on_connect(client, userdata, flags, rc):
-    if rc==0:
-        client.connected_flag=True #set flag
-        print("connected OK")
-    else:
-        print("Bad connection Returned code=",rc)
-        client.bad_connection_flag=True
-
 def on_disconnect(client, userdata, rc):
     print("disconnecting reason  "  +str(rc))
     client.connected_flag=False
@@ -94,7 +86,7 @@ gpio.init()
 client.publish('home/garagedoor/availability',payload='online')
 client.subscribe(door_sensor_topic,1)
 while not client.connected_flag and not client.bad_connection_flag: #wait in loop
-    print("In wait loop")
+    print(".")
     time.sleep(1)
 if client.bad_connection_flag:
     client.loop_stop()    #Stop loop
