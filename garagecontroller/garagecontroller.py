@@ -31,9 +31,8 @@ def on_connect(client, userdata, flags, rc, v5config=None):
 def on_message(client, userdata, message,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Received message " + str(message.payload) + " on topic '"
         + message.topic + "' with QoS " + str(message.qos))
-    if message.topic ==
     print("Single push")
-    gpio.push()
+    #gpio.push()
     
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
