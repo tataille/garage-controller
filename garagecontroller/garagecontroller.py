@@ -8,11 +8,42 @@ from paho.mqtt.packettypes import PacketTypes
 import dotenv
 import gpio
 import sys
+from datetime import datetime as dt
+from paho.mqtt.client import connack_string as ack
+import json
 
 def disconnectMQTT():
      client.publish('home/garagedoor/availability',payload='offline')
      client.loop_stop()
      client.disconnect();
+
+
+
+def on_connect(client, userdata, flags, rc, v5config=None):
+    if rc==0:
+        print("connected OK Returned code=",rc)
+        mytopic = 'home/garagedoor/POWER'
+        client.subscribe(mytopic,2);  
+    else:
+        print("Bad connection Returned code= ",rc)
+
+
+def on_message(client, userdata, message,tmp=None):
+    print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Received message " + str(message.payload) + " on topic '"
+        + message.topic + "' with QoS " + str(message.qos))
+    if message.topic ==
+    print("Single push")
+    gpio.push()
+    
+def on_publish(client, userdata, mid,tmp=None):
+    print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
+    
+def on_subscribe(client, userdata, mid, qos,tmp=None):
+    if isinstance(qos, list):
+        qos_msg = str(qos[0])
+    else:
+        qos_msg = f"and granted QoS {qos[0]}"
+    print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Subscribed " + qos_msg)    
 
 def on_connect(client, userdata, flags, rc):
     if rc==0:
@@ -47,7 +78,7 @@ client.on_subscribe = callback.on_subscribe;
 
 broker_port = int(os.getenv('port'))
 broker_host = os.getenv('broker')
-door_sensor_topic = os.getenv('doorsensortopic')
+door_sensor_topic = os.getenv('doorSensorTopic')
 
 print('MQTT Broker: '+broker_host+':'+str(broker_port))
 print('Door sensor topic: '+door_sensor_topic)
@@ -62,6 +93,7 @@ atexit.register(disconnectMQTT)
 gpio.init()
 
 client.publish('home/garagedoor/availability',payload='online')
+client.subscribe(door_sensor_topic,1)
 while not client.connected_flag and not client.bad_connection_flag: #wait in loop
     print("In wait loop")
     time.sleep(1)
