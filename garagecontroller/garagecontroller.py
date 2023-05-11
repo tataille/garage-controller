@@ -28,9 +28,8 @@ def disconnectMQTT():
 def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
         print("connected OK Returned code=",rc)
-        
-        client.subscribe(power_topic,0)
-        client.subscribe(door_sensor_topic,1)
+        client.subscribe(power_topic,2)
+        client.subscribe(door_sensor_topic,2)
     else:
         print("Bad connection Returned code= ",rc)
 
