@@ -1,5 +1,4 @@
 import paho.mqtt.client as mqtt
-import callback
 import os
 import time
 import atexit
