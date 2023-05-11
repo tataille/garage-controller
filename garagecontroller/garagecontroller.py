@@ -86,7 +86,7 @@ atexit.register(disconnectMQTT)
 gpio.init()
 
 client.publish('home/garagedoor/availability',payload='online')
-
+client.loop_start()
 while not client.connected_flag and not client.bad_connection_flag: #wait in loop
     print(".")
     time.sleep(1)
