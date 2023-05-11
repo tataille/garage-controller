@@ -17,13 +17,13 @@ broker_port = int(os.getenv('port'))
 broker_host = os.getenv('broker')
 door_sensor_topic = os.getenv('doorSensorTopic')
 power_topic = 'home/garagedoor/POWER'
+state_topic = 'home/garagedoor/status'
+availability_topic = 'home/garagedoor/availability'
 
 def disconnectMQTT():
-     client.publish('home/garagedoor/availability',payload='offline')
+     client.publish(availability_topic,payload='offline')
      client.loop_stop()
      client.disconnect()
-
-
 
 def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
@@ -50,9 +50,9 @@ def on_message(client, userdata, message,tmp=None):
           print(type(m_in))
           print("state",m_in["contact"])
           if m_in["contact"] == True:
-               client.publish('home/garagedoor/status',payload='opened')
+               client.publish(state_topic,payload='closed')
           else:
-               client.publish('home/garagedoor/status',payload='closed')
+               client.publish(state_topic,payload='false')
     
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
@@ -102,11 +102,12 @@ client.connect(broker_host,
 atexit.register(disconnectMQTT)
 gpio.init()
 
-client.publish('home/garagedoor/availability',payload='online')
+client.publish(availability_topic,payload='online')
 client.loop_start()
+print('Running..')
 while not client.connected_flag and not client.bad_connection_flag: #wait in loop
-    print(".")
     time.sleep(1)
 if client.bad_connection_flag:
+    print('Stopping..')
     client.loop_stop()    #Stop loop
     sys.exit()     
