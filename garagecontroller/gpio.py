@@ -17,17 +17,8 @@ def handler(signal_received, frame):
     gpio.cleanup()
     exit(0)
 
-def interrupt_service_routine(Input_Sig):
-    time.sleep(0.005) # edge debounce of 5mSec
-    # only deal with valid edges
-    if gpio.input(Input_Sig) == 1:
-        push()
-    return
-
-
 def push():
-    gpio.output(LED, gpio.LOW) #On l’éteint
-    
+    gpio.output(LED, gpio.LOW) #On l’éteint    
     print("press")
     gpio.output(14, gpio.LOW)
     gpio.output(LED, gpio.HIGH) #On l'allume
