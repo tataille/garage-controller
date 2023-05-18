@@ -6,7 +6,7 @@ from sys import exit
 
 LED = 12 #Définit le numéro du port GPIO qui alimente la led
 button=16
-time=100
+timeout=100
 
 def handler(signal_received, frame):
     # on gère un cleanup propre
@@ -30,7 +30,7 @@ def check_button():
     while 1:
         if (gpio.input(button) == 1):
             push()
-        time.sleep(time/1000)
+        time.sleep(timeout/1000)
 
 
 def init():
