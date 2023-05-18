@@ -4,6 +4,7 @@ from signal import signal, SIGINT
 from sys import exit
 
 LED = 12 #Définit le numéro du port GPIO qui alimente la led
+button=36
 
 def handler(signal_received, frame):
     # on gère un cleanup propre
@@ -32,14 +33,9 @@ def init():
     # defini le port GPIO 4 comme etant une sortie output
     gpio.setup(14, gpio.OUT, initial=1)
     gpio.setup(LED, gpio.OUT, initial=0) #Active le contrôle du GPIO
+    gpio.setup(button, gpio.IN)
 
     signal(SIGINT, handler)
-
-    # Mise a 1 pendant 2 secondes puis 0 pendant 2 seconde
-    # while True:
-    #     print("on")
-    #     gpio.output(14, gpio.HIGH)
-    #     time.sleep(0.7)
-    #     print("off")
-    #     gpio.output(14, gpio.LOW)
-    #     time.sleep(2)
+    while 1:
+        if (gpio.input(button) == 1):
+            push()
