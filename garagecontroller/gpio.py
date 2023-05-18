@@ -1,11 +1,13 @@
 import RPi.GPIO as gpio
+from gpiozero import LED, Button 
 import threading
 import time
 from signal import signal, SIGINT
 from sys import exit
 
 LED = 12 #Définit le numéro du port GPIO qui alimente la led
-button=16
+button=Button(16) 
+
 timeout=100
 
 def handler(signal_received, frame):
@@ -50,6 +52,6 @@ def init():
     gpio.setup(14, gpio.OUT, initial=1)
     gpio.setup(LED, gpio.OUT, initial=0) #Active le contrôle du GPIO
     gpio.setup(button,gpio.IN,pull_up_down=gpio.PUD_UP)
+9   button.when_released = push
 
-    gpio.add_event_detect(button, gpio.FALLING, callback=interrupt_service_routine, bouncetime=200)
     signal(SIGINT, handler)
