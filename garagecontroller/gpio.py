@@ -15,6 +15,14 @@ def handler(signal_received, frame):
     gpio.cleanup()
     exit(0)
 
+def interrupt_service_routine(Input_Sig):
+    time.sleep(0.005) # edge debounce of 5mSec
+    # only deal with valid edges
+    if gpio.input(Input_Sig) == 1:
+        push()
+    return
+
+
 def push():
     gpio.output(LED, gpio.LOW) #On l’éteint
     
@@ -42,5 +50,5 @@ def init():
     gpio.setup(14, gpio.OUT, initial=1)
     gpio.setup(LED, gpio.OUT, initial=0) #Active le contrôle du GPIO
     gpio.setup(button, gpio.IN)
-    gpio.add_event_detect(button, gpio.RISING, callback=push, bouncetime=200)
+    gpio.add_event_detect(button, gpio.RISING, callback=interrupt_service_routine, bouncetime=200)
     signal(SIGINT, handler)
