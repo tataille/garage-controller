@@ -49,6 +49,7 @@ def init():
     # defini le port GPIO 4 comme etant une sortie output
     gpio.setup(14, gpio.OUT, initial=1)
     gpio.setup(LED, gpio.OUT, initial=0) #Active le contrôle du GPIO
-    gpio.setup(button, gpio.IN)
-    gpio.add_event_detect(button, gpio.RISING, callback=interrupt_service_routine, bouncetime=200)
+    gpio.setup(button,gpio.IN,pull_up_down=gpio.PUD_UP)
+
+    gpio.add_event_detect(button, gpio.FALLING, callback=interrupt_service_routine, bouncetime=200)
     signal(SIGINT, handler)
