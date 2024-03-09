@@ -29,7 +29,7 @@ def on_connect(client, userdata, flags, rc, v5config=None):
     if rc==0:
           print("connected OK Returned code=",rc)
           time.sleep(5)
-          client.publish(availability_topic,payload='online')
+          client.publish(availability_topic,payload='online', qos=1, retain=True)
           client.subscribe(power_topic,1)
           client.subscribe(door_sensor_topic,1)
     else:
@@ -52,9 +52,9 @@ def on_message(client, userdata, message,tmp=None):
           print(type(m_in))
           print("state",m_in["contact"])
           if m_in["contact"] == True:
-               client.publish(state_topic,payload='closed')
+               client.publish(state_topic,'closed', 1, True)
           else:
-               client.publish(state_topic,payload='opened')
+               client.publish(state_topic,'opened', 1, True)
     
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
