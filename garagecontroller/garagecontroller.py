@@ -55,6 +55,8 @@ def on_message(client, userdata, message,tmp=None):
                client.publish(state_topic,'closed', 1, True)
           else:
                client.publish(state_topic,'opened', 1, True)
+          m_in = None
+          m_decode = None
     
 def on_publish(client, userdata, mid,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Published message id: "+str(mid))
