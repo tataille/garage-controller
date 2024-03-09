@@ -21,7 +21,7 @@ state_topic = 'home/garagedoor/status'
 availability_topic = 'home/garagedoor/availability'
 
 def disconnectMQTT():
-    client.publish(availability_topic,payload='offline')
+    client.publish(availability_topic,payload='offline', qos=1, retain=True))
     client.loop_stop()
     client.disconnect()
 
