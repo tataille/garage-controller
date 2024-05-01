@@ -1,6 +1,6 @@
 # mqtt-garage-controller
 
-Python projet Allow to allow to control garage door through MQTT.
+Python projet to allow to control garage door through MQTT.
 
 ## Garage Door & Motor
 
@@ -25,6 +25,18 @@ payload_close: "ON"
 payload_stop: "ON"
 state_open: "opened"
 state_closed: "closed"
+```
+
+## Configuration
+
+Create a .env file into root directory.
+
+```bash
+broker=mosquitto_ip
+port=mosquitto_port
+username=mosquitto_account
+password=mosquitto_password
+doorSensorTopic=zigbee2mqtt/0xxxxxxxxxxxxxxx
 ```
 
 ## services
