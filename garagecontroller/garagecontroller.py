@@ -10,15 +10,39 @@ import sys
 from datetime import datetime as dt
 from paho.mqtt.client import connack_string as ack
 import json
+import threading
+
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/push', methods=['POST'])
+def handle_post():
+    data = request.json  # Récupère les données JSON de la requête POST
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+
+    # Traitement du push
+    gpio.push()
+
+    # Traitez les données ici
+    response = {
+        "message": "Data received successfully",
+        "received_data": data
+    }
+
+    return jsonify(response), 200
 
 dotenv.load_dotenv()
 
 broker_port = int(os.getenv('port'))
 broker_host = os.getenv('broker')
 door_sensor_topic = os.getenv('doorSensorTopic')
-power_topic = 'home/garagedoor/POWER'
 state_topic = 'home/garagedoor/status'
 availability_topic = 'home/garagedoor/availability'
+
+def run_flask_app():
+    app.run(debug=True, use_reloader=False)
 
 def disconnectMQTT():
     client.publish(availability_topic,payload='offline', qos=1, retain=True)
@@ -30,7 +54,6 @@ def on_connect(client, userdata, flags, rc, v5config=None):
           print("connected OK Returned code=",rc)
           time.sleep(5)
           client.publish(availability_topic,payload='online', qos=1, retain=True)
-          client.subscribe(power_topic,1)
           client.subscribe(door_sensor_topic,1)
     else:
           print("Bad connection Returned code= ",rc)
@@ -40,10 +63,7 @@ def on_message(client, userdata, message,tmp=None):
     print(dt.now().strftime("%H:%M:%S.%f")[:-2] + " Received message " + str(message.payload) + " on topic '"
         + message.topic + "' with QoS " + str(message.qos))
 
-    if message.topic == power_topic:
-          print("Single push")
-          gpio.push()
-    elif message.topic == door_sensor_topic:
+    if message.topic == door_sensor_topic:
           m_decode=str(message.payload.decode("utf-8","ignore"))
           print("data Received type",type(m_decode))
           print("data Received",m_decode)
@@ -92,8 +112,6 @@ client.on_message = on_message;
 client.on_publish = on_publish;
 client.on_subscribe = on_subscribe;
 
-
-
 print('MQTT Broker: '+broker_host+':'+str(broker_port))
 print('Door sensor topic: '+door_sensor_topic)
 
@@ -105,6 +123,9 @@ client.connect(broker_host,
                 bind_address="")
 atexit.register(disconnectMQTT)
 gpio.init()
+# Démarrer le serveur Flask dans un thread séparé
+flask_thread = threading.Thread(target=run_flask_app)
+flask_thread.start()
 
 client.loop_start()
 print('Running..')
