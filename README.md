@@ -14,8 +14,6 @@ Python projet to allow to control garage door through MQTT.
 ## Home Assistant
 
 ```mqtt
-
-command_topic: "home/garagedoor/POWER"
 state_topic: "home/garagedoor/status"
 availability_topic: "home/garagedoor/availability"    
 payload_available: "online"
